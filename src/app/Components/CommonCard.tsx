@@ -38,8 +38,9 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
 
     // Cleanup on unmount
     return () => {
-      if (tiltNode && (tiltNode as any).vanillaTilt) {
-        (tiltNode as any).vanillaTilt.destroy();
+      const node = tiltRef.current as (HTMLDivElement & { vanillaTilt?: { destroy: () => void } }) | null;
+      if (node?.vanillaTilt) {
+        node.vanillaTilt.destroy();
       }
     };
   }, []);
@@ -62,7 +63,7 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
       {/* Foreground Content */}
       <div className="relative z-10 flex flex-col items-center text-center space-y-4">
         <h3 className="text-white text-2xl font-semibold">{title}</h3>
-        <p className="text-white/80 italic">"{desc}"</p>
+        <p className="text-white/80 italic">&quot;{desc}&quot;</p>
 
         <div className="space-y-2">
           <h4 className="text-white font-semibold underline underline-offset-4">

@@ -14,7 +14,7 @@ export const contactFormCodes = {
   MESSAGE: "message",
 };
 
-const Contact = forwardRef<HTMLElement>((_props, ref) => {
+const Contact = forwardRef<HTMLElement, Record<string, unknown>>((_props, ref) => {
   const [contactData, setContactData] = useState({
     firstName: "",
     lastName: "",
@@ -34,7 +34,7 @@ const Contact = forwardRef<HTMLElement>((_props, ref) => {
     const inputs = [fnameRef, lnameRef, emailRef, messageRef];
     inputs.forEach((input) => {
       if (!input.current) return;
-      const label = input.current.nextElementSibling?.firstElementChild as HTMLElement;
+      const label = input.current.nextElementSibling?.firstElementChild as HTMLElement | null;
       input.current.addEventListener("focus", () => {
         if (label) {
           label.style.transform = `translateY(-30px)`;
@@ -94,11 +94,18 @@ const Contact = forwardRef<HTMLElement>((_props, ref) => {
           className: "custom_toast",
         });
       }
-    } catch (error: any) {
-      toast.error(error.message, {
-        position: "top-center",
-        className: "custom_toast",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message, {
+          position: "top-center",
+          className: "custom_toast",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+          className: "custom_toast",
+        });
+      }
     }
   };
 

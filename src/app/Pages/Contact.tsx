@@ -1,9 +1,9 @@
 "use client";
+
 import React, { forwardRef, useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import axios from "axios";
-import {ToastPosition } from "react-toastify";
 
 export const baseUrl = "https://meta-resume.herokuapp.com/api";
 
@@ -14,7 +14,7 @@ export const contactFormCodes = {
   MESSAGE: "message",
 };
 
-const Contact = (props: any, ref: any) => {
+const Contact = forwardRef<HTMLElement>((_props, ref) => {
   const [contactData, setContactData] = useState({
     firstName: "",
     lastName: "",
@@ -75,7 +75,6 @@ const Contact = (props: any, ref: any) => {
       ) {
         toast.error("Please fill all details", {
           position: "top-center",
-
           className: "custom_toast",
         });
       } else {
@@ -92,14 +91,12 @@ const Contact = (props: any, ref: any) => {
 
         toast.success("Message sent successfully. We will contact you soon", {
           position: "top-center",
-
           className: "custom_toast",
         });
       }
     } catch (error: any) {
       toast.error(error.message, {
         position: "top-center",
-
         className: "custom_toast",
       });
     }
@@ -220,6 +217,8 @@ const Contact = (props: any, ref: any) => {
       </div>
     </section>
   );
-};
+});
 
-export default forwardRef(Contact);
+Contact.displayName = "Contact";
+
+export default Contact;

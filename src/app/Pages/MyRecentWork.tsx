@@ -66,18 +66,16 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>((props, ref) => {
       className="relative w-full px-0 py-5 text-white overflow-hidden bg-[#292929]"
     >
       {/* Ball 1 - Top Right (Larger, 5rem radius) */}
-  <div className="absolute top-20 right-[700] w-[140px] h-[140px] rounded-full bg-gradient-to-br from-blue-500 via-purple-500 " />
+      <div className="absolute top-[20px] right-[700px] w-[140px] h-[140px] rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500" />
 
-  {/* Ball 2 - Bottom Left (Smaller, 3rem radius) */}
-  <div className="absolute top-45 left-[310] w-[300px] h-[300px] rounded-full bg-[linear-gradient(to_bottom_right,_orange_600_80%,_yellow_400_20%)]  " />
+      {/* Ball 2 - Bottom Left (Smaller, 3rem radius) */}
+      <div className="absolute top-[45px] left-[310px] w-[300px] h-[300px] rounded-full bg-gradient-to-br from-orange-600 via-orange-500 to-yellow-400" />
 
-
-      
       <h1 className="relative z-10 text-3xl font-bold text-center mb-8 text-[#2cb4f8]">
         My Recent Work
       </h1>
 
-      <div className="relative z-20 flex flex-wrap justify-center  max-w-5xl mx-auto">
+      <div className="relative z-20 flex flex-wrap justify-center max-w-5xl mx-auto">
         {portfolioData.map((data) => (
           <PortfolioItem key={data.id} {...data} />
         ))}

@@ -10,17 +10,17 @@ interface SkillProps {
 }
 
 // Horizontal bar for Programming Languages
-const ProgLang: React.FC<SkillProps> = ({ id, title, level }) => {
+const ProgLang: React.FC<SkillProps> = ({ title, level }) => {
   const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (barRef.current) {
-      barRef.current.style.width = `${level * 10}%`;
+      barRef.current.style.width = `${Math.min(10, Math.max(0, level)) * 10}%`;
     }
   }, [level]);
 
   return (
-    <div className="flex items-center justify-between mb-4 ">
+    <div className="flex items-center justify-between mb-4">
       <span className="text-white text-lg w-[120px]">{title}</span>
       <div className="w-full max-w-[300px] h-[12px] bg-gray-800 rounded-full overflow-hidden ml-4">
         <div
@@ -33,11 +33,12 @@ const ProgLang: React.FC<SkillProps> = ({ id, title, level }) => {
 };
 
 // Circular progress for Tools & Frameworks
-const TechSkill: React.FC<SkillProps> = ({ id, title, level }) => {
+const TechSkill: React.FC<SkillProps> = ({ title, level }) => {
   const [percent, setPercent] = useState(0);
   const circleRef = useRef<SVGPathElement>(null);
   const strokeLength = 330;
-  const offset = strokeLength - level * 33;
+  const safeLevel = Math.min(10, Math.max(0, level));
+  const offset = strokeLength - safeLevel * 33;
 
   useEffect(() => {
     if (circleRef.current) {
@@ -46,7 +47,7 @@ const TechSkill: React.FC<SkillProps> = ({ id, title, level }) => {
 
     let counter = 0;
     const interval = setInterval(() => {
-      if (counter >= level * 10) {
+      if (counter >= safeLevel * 10) {
         clearInterval(interval);
       } else {
         counter += 1;
@@ -55,7 +56,7 @@ const TechSkill: React.FC<SkillProps> = ({ id, title, level }) => {
     }, 20);
 
     return () => clearInterval(interval);
-  }, [level, offset]);
+  }, [safeLevel, offset]);
 
   return (
     <div className="relative w-[120px] h-[120px] m-2 flex flex-col items-center justify-center text-center">
@@ -78,8 +79,8 @@ const TechSkill: React.FC<SkillProps> = ({ id, title, level }) => {
         />
         <defs>
           <linearGradient id="circleGrad" x1="60" y1="0" x2="60" y2="120">
-            <stop stopColor="#a82b8c" />
-            <stop offset="1" stopColor="#a82b8c" />
+            <stop stopColor="#2cb4f8" />
+            <stop offset="1" stopColor="#ac46e7" />
           </linearGradient>
         </defs>
       </svg>
@@ -92,7 +93,7 @@ const TechSkill: React.FC<SkillProps> = ({ id, title, level }) => {
 };
 
 // Main Skills Section
-const Skills = forwardRef<HTMLElement, {}>((_props, ref) => {
+const Skills = forwardRef<HTMLElement, Record<string, never>>((_props, ref) => {
   return (
     <section
       ref={ref}

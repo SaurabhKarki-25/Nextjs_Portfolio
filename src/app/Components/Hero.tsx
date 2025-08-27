@@ -1,11 +1,10 @@
 'use client';
 
-
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const url3 =
-  "https://drive.google.com/file/d/12kPgfE6h42_WEg4sBoFcYPVPr8rmpVXO/view?usp=sharing";
+  "https://drive.google.com/uc?export=download&id=12kPgfE6h42_WEg4sBoFcYPVPr8rmpVXO";
 
 const Hero = forwardRef<HTMLElement>((_, ref) => {
   const [isSmall, setIsSmall] = useState(false);
@@ -14,39 +13,45 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
   const fNameRef = useRef<HTMLSpanElement>(null);
   const lNameRef = useRef<HTMLSpanElement>(null);
 
+  // Handle responsiveness
   useEffect(() => {
-    setIsSmall(window.innerWidth < 768);
+    const handleResize = () => setIsSmall(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Initial animation
   useEffect(() => {
     const fletters = fNameRef.current?.children ?? [];
     const lletters = lNameRef.current?.children ?? [];
 
     [...fletters, ...lletters].forEach((letter) => {
-      setTimeout(() => {
-        letter.classList.add("animate-rubberBand");
-      }, 1000);
-      setTimeout(() => {
-        letter.classList.remove("animate-rubberBand");
-      }, 3000);
+      setTimeout(() => letter.classList.add("animate-rubberBand"), 1000);
+      setTimeout(() => letter.classList.remove("animate-rubberBand"), 3000);
     });
   }, []);
 
+  // Hover animations
   useEffect(() => {
     const fletters = fNameRef.current?.children ?? [];
     const lletters = lNameRef.current?.children ?? [];
 
-    [...fletters, ...lletters].forEach((letter) => {
+    const allLetters = [...fletters, ...lletters];
+    const handlers: { el: Element; fun1: () => void; fun2: () => void }[] = [];
+
+    allLetters.forEach((letter) => {
       const fun1 = () => letter.classList.add("animate-rubberBand");
       const fun2 = () => letter.classList.remove("animate-rubberBand");
       letter.addEventListener("mouseover", fun1);
       letter.addEventListener("mouseleave", fun2);
+      handlers.push({ el: letter, fun1, fun2 });
     });
 
     return () => {
-      [...fletters, ...lletters].forEach((letter) => {
-        letter.removeEventListener("mouseover", () => {});
-        letter.removeEventListener("mouseleave", () => {});
+      handlers.forEach(({ el, fun1, fun2 }) => {
+        el.removeEventListener("mouseover", fun1);
+        el.removeEventListener("mouseleave", fun2);
       });
     };
   }, []);
@@ -55,13 +60,13 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
     <section
       id="top"
       ref={ref}
-      className="relative w-full min-h-screen overflow-hidden bg-[#292929] text-white p-4 "
+      className="relative w-full min-h-screen overflow-hidden bg-[#292929] text-white p-4"
     >
       {/* Overlay */}
-      <div className="absolute inset-0  z-0"></div>
+      <div className="absolute inset-0 z-0"></div>
 
       {/* Content Wrapper */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between pt-50">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-50 flex flex-col md:flex-row items-center justify-between">
         {/* Left Content */}
         <div className="flex-1 space-y-6">
           <h4
@@ -69,7 +74,7 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
             data-aos-delay="200"
             className="text-lg font-medium"
           >
-            Hi! I am <span></span>{" "}
+            Hi! I am
           </h4>
 
           <h1
@@ -115,23 +120,22 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
             data-aos-offset="30"
             className="flex gap-4 mt-6"
           >
-            <button
-              onClick={() => console.log("resume downloaded")}
+            <a
+              href={url3}
+              rel="noopener noreferrer"
+              target="_blank"
+              id="nav_resumeMaker"
               className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition"
             >
-              <a
-                href={url3}
-                rel="noopener noreferrer"
-                target="_blank"
-                id="nav_resumeMaker"
-              >
-                Download Resume
-              </a>
-            </button>
+              Download Resume
+            </a>
 
-            <button className="bg-transparent border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">
-              <a href="#contact">Let's Talk</a>
-            </button>
+            <a
+              href="#contact"
+              className="bg-transparent border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition"
+            >
+              Let&apos;s Talk
+            </a>
           </div>
         </div>
 
@@ -141,26 +145,26 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
           data-aos-delay="300"
           className="flex-1 flex justify-center items-center mt-10 md:mt-0"
         >
-          
-          <div className="relative w-80 h-80 rounded-full overflow-hidden border-2 " style={{ borderColor: 'rgb(0,255,187)'}}>
-  {/* Base image */}
-  <Image
-    src="/myPic.jpg"
-    alt="Base Image"
-    width={128}
-    height={128}
-    className="absolute top-0 left-0 w-full h-full object-cover rounded-full scale-x-[-1]"
-  />
+          <div
+            className="relative w-80 h-80 rounded-full overflow-hidden border-2"
+            style={{ borderColor: "rgb(0,255,187)" }}
+          >
+            {/* Base image */}
+            <Image
+              src="/myPic.jpg"
+              alt="Profile picture"
+              fill
+              className="object-cover rounded-full -scale-x-100"
+            />
 
-  {/* Overlay image */}
-  <Image
-    src="/myPic1.png"
-    alt="Overlay"
-    width={128}
-    height={128}
-    className="absolute top-0 left-0 w-full h-full object-cover rounded-full pointer-events-none scale-x-[-1]"
-  />
-</div>
+            {/* Overlay image */}
+            <Image
+              src="/myPic1.png"
+              alt="Profile overlay"
+              fill
+              className="object-cover rounded-full pointer-events-none -scale-x-100"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -168,5 +172,4 @@ const Hero = forwardRef<HTMLElement>((_, ref) => {
 });
 
 Hero.displayName = "Hero";
-
 export default Hero;

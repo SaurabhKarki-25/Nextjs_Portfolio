@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import VanillaTilt from 'vanilla-tilt';
 
 interface PortfolioItemProps {
@@ -20,45 +20,36 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
   git_link,
   live_demo_link,
 }) => {
-  const [isTilt, setIsTilt] = useState(false);
-  const tilt = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isTilt && tilt.current) {
-      VanillaTilt.init(tilt.current, {
+    const tiltNode = tiltRef.current;
+
+    if (tiltNode) {
+      // Initialize VanillaTilt
+      VanillaTilt.init(tiltNode, {
         max: 35,
         speed: 300,
         glare: true,
         'max-glare': 0.7,
         gyroscope: false,
       });
-    } else {
-      setTimeout(() => {
-        if (tilt.current) tilt.current.style.cssText = '';
-      }, 50);
     }
-  }, [isTilt]);
 
-  useEffect(() => {
-    const el = tilt.current;
-    const onEnter = () => setIsTilt(true);
-    const onLeave = () => setIsTilt(false);
-
-    el?.addEventListener('mouseover', onEnter);
-    el?.addEventListener('mouseleave', onLeave);
-
+    // Cleanup on unmount
     return () => {
-      el?.removeEventListener('mouseover', onEnter);
-      el?.removeEventListener('mouseleave', onLeave);
+      if (tiltNode && (tiltNode as any).vanillaTilt) {
+        (tiltNode as any).vanillaTilt.destroy();
+      }
     };
   }, []);
 
   return (
     <div
-      ref={tilt}
-      className="relative overflow-hidden p-10 w-full max-w-md mx-auto my-10  rounded-2xl border border-white/40 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-transform duration-300 flex flex-col items-center text-center bg-white/5"
-      data-aos={isTilt ? undefined : id % 2 === 0 ? 'zoom-in-left' : 'zoom-in-right'}
-      data-aos-delay={isTilt ? undefined : id % 2 === 0 ? 100 : 0}
+      ref={tiltRef}
+      className="relative overflow-hidden p-10 w-full max-w-md mx-auto my-10 rounded-2xl border border-white/40 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col items-center text-center bg-white/5"
+      data-aos={id % 2 === 0 ? 'zoom-in-left' : 'zoom-in-right'}
+      data-aos-delay={id % 2 === 0 ? 100 : 0}
     >
       {/* Glowing Gradient Background */}
       <div className="absolute inset-0 z-0 rounded-2xl bg-gradient-radial from-orange-400 via-yellow-500 to-transparent opacity-30 blur-2xl" />
@@ -74,7 +65,9 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
         <p className="text-white/80 italic">"{desc}"</p>
 
         <div className="space-y-2">
-          <h3 className="text-white font-semibold underline underline-offset-4">Features</h3>
+          <h4 className="text-white font-semibold underline underline-offset-4">
+            Features
+          </h4>
           {features.map((f, idx) => (
             <p key={idx} className="text-white/70">
               <span className="text-yellow-400">&#xBB;</span> {f}

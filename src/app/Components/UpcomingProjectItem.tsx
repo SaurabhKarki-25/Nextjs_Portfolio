@@ -1,16 +1,17 @@
 "use client";
 
 import React from "react";
+import Image, { StaticImageData } from "next/image";
 
-export interface UpcommingProjectItemProps {
+export interface UpcomingProjectItemProps {
   id: number;
-  img: any;
+  img: string | StaticImageData; // accept both string and imported images
   title: string;
   desc: string;
   tech: string[];
 }
 
-const UpcommingProjectItem: React.FC<UpcommingProjectItemProps> = ({
+const UpcomingProjectItem: React.FC<UpcomingProjectItemProps> = ({
   img,
   title,
   desc,
@@ -19,14 +20,20 @@ const UpcommingProjectItem: React.FC<UpcommingProjectItemProps> = ({
   return (
     <div
       className="bg-[#130f40] bg-gradient-to-br from-[#130f40] to-black 
-                 flex flex-col  justify-between items-center 
-                 p-6 rounded-lg  max-w-[480px] w-full shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
+                 flex flex-col justify-between items-center 
+                 p-6 rounded-lg max-w-[480px] w-full 
+                 shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
     >
       {/* image box */}
-      <div
-        className="h-[100px] w-[450px] sm:h-[80px]  bg-contain bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${img.src})` }}
-      />
+      <div className="relative w-full sm:max-w-[450px] h-[100px] sm:h-[80px]">
+        <Image
+          src={img}
+          alt={title}
+          fill
+          className="object-contain"
+          sizes="(max-width: 640px) 100vw, 450px"
+        />
+      </div>
 
       {/* title */}
       <h2 className="w-full text-center py-5 text-[25px] text-[#e282ff] font-semibold">
@@ -55,4 +62,4 @@ const UpcommingProjectItem: React.FC<UpcommingProjectItemProps> = ({
   );
 };
 
-export default UpcommingProjectItem;
+export default UpcomingProjectItem;

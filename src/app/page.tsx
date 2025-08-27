@@ -10,7 +10,7 @@ import Contact from "./Pages/Contact";
 import Footer from "./Components/Footer";
 import RightNav from "./Components/Navigation";
 import SocialLinks from "./Components/SocialLinks"
-import Animation2 from "./Components/Animation/Animation2"
+
 
 export default function Home() {
   return (
@@ -58,7 +58,7 @@ export default function Home() {
 
       <SocialLinks/>
 
-      <Animation2/>
+    
     </>
   );
 }

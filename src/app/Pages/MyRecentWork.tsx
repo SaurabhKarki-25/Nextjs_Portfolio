@@ -3,9 +3,7 @@
 import React, { forwardRef } from 'react';
 import { PortfolioItem } from '../Components/CommonCard';
 
-interface PortfolioProps {}
-
-interface PortfolioFeature {
+export interface PortfolioFeature {
   id: number;
   title: string;
   desc: string;
@@ -14,7 +12,7 @@ interface PortfolioFeature {
   live_demo_link: string;
 }
 
-const Portfolio = forwardRef<HTMLElement, PortfolioProps>((_props, ref) => {
+const Portfolio = forwardRef<HTMLElement>((_props, ref) => {
   const portfolioData: PortfolioFeature[] = [
     {
       id: 1,
@@ -67,19 +65,19 @@ const Portfolio = forwardRef<HTMLElement, PortfolioProps>((_props, ref) => {
     <section
       id="portfolio"
       ref={ref}
-      className="relative w-full px-0 py-5 text-white overflow-hidden bg-[#292929]"
+      className="relative w-full px-0 py-10 text-white overflow-hidden bg-[#292929]"
     >
-      {/* Ball 1 - Top Right */}
+      {/* Decorative Gradient Balls */}
       <div className="absolute top-[20px] right-[700px] w-[140px] h-[140px] rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500" />
-
-      {/* Ball 2 - Bottom Left */}
       <div className="absolute top-[45px] left-[310px] w-[300px] h-[300px] rounded-full bg-gradient-to-br from-orange-600 via-orange-500 to-yellow-400" />
 
-      <h1 className="relative z-10 text-3xl font-bold text-center mb-8 text-[#2cb4f8]">
+      {/* Section Heading */}
+      <h1 className="relative z-10 text-3xl font-bold text-center mb-12 text-[#2cb4f8]">
         My Recent Work
       </h1>
 
-      <div className="relative z-20 flex flex-wrap justify-center max-w-5xl mx-auto">
+      {/* Portfolio Items */}
+      <div className="relative z-20 flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
         {portfolioData.map((data) => (
           <PortfolioItem key={data.id} {...data} />
         ))}

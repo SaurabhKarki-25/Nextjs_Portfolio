@@ -23,10 +23,9 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
   const tiltRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tiltNode = tiltRef.current;
+    const tiltNode = tiltRef.current; // ✅ cache the current ref
 
     if (tiltNode) {
-      // Initialize VanillaTilt
       VanillaTilt.init(tiltNode, {
         max: 35,
         speed: 300,
@@ -36,11 +35,13 @@ export const PortfolioItem: React.FC<PortfolioItemProps> = ({
       });
     }
 
-    // Cleanup on unmount
     return () => {
-      const node = tiltRef.current as (HTMLDivElement & { vanillaTilt?: { destroy: () => void } }) | null;
+      const node = tiltNode as (HTMLDivElement & {
+        vanillaTilt?: { destroy: () => void };
+      }) | null;
+
       if (node?.vanillaTilt) {
-        node.vanillaTilt.destroy();
+        node.vanillaTilt.destroy(); // ✅ cleanup using cached node
       }
     };
   }, []);

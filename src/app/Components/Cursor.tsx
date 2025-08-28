@@ -30,7 +30,7 @@ export default function Cursor() {
 
   return (
     <div
-      className={`pointer-events-none fixed top-0 left-0 z-[9999] h-15 w-15 rounded-full border border-white/30 shadow-xl transition-transform duration-300 ease-out`}
+      className={`pointer-events-none fixed top-0 left-0 z-[9999] h-12 w-12 rounded-full border border-white/30 shadow-xl transition-transform duration-300 ease-out`}
       style={{
         transform: `translate(${position.x - 40}px, ${position.y - 40}px) scale(${
           hovered ? 1.3 : 1

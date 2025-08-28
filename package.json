@@ -8,12 +8,6 @@
     "start": "next start",
     "lint": "eslint"
   },
-   
-  "engines": {
-    "node": "22.x"
-  },
-
-
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "axios": "^1.11.0",
@@ -31,7 +25,6 @@
     "three.js": "^0.77.1",
     "types": "file:../../../../../../../../react-typed",
     "vanilla-tilt": "^1.8.1"
-    
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

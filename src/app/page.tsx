@@ -10,11 +10,14 @@ import Contact from "./Pages/Contact";
 import Footer from "./Components/Footer";
 import RightNav from "./Components/Navigation";
 import SocialLinks from "./Components/SocialLinks"
+import Cursor from "./Components/Cursor";
 
 
 export default function Home() {
   return (
     <>
+
+      <Cursor/>
       <Navbar />
 
       <section id="hero">

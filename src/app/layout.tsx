@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "Hari Joshi | Software Developer",
     description:
       "Explore the portfolio of Hari Joshi, a software developer skilled in React, Next.js, and full-stack development.",
-    url: "https://your-portfolio.vercel.app",
+    url: "https://nextjs-portfolio-mgg0jzhai-saurabhs-projects-18ddaebc.vercel.app/",
     siteName: "Hari Joshi Portfolio",
     images: [
       {
